@@ -5,22 +5,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>بوصلتك مع الأستاذ</title>
 <link rel="canonical" href="https://baoussalatkostaz.com/">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#7f1d1d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+html,body{margin:0;min-height:100%;font-family:Tahoma,'Segoe UI','Noto Sans Arabic',sans-serif;background:#0f2744;color:#f8fafc}
+body{display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box}
+.box{max-width:420px;width:100%;background:#111827;border-radius:20px;padding:22px 18px;box-shadow:0 16px 40px #0006}
+h1{font-size:1.25rem;margin:0 0 10px;line-height:1.5}
+p{margin:0 0 12px;line-height:1.75;color:#e2e8f0}
+ol{margin:0 0 16px;padding:0 1.2em;line-height:1.8;color:#e2e8f0}
+.a{display:block;text-align:center;background:#16a34a;color:#fff;font-weight:800;text-decoration:none;border-radius:12px;padding:14px 16px;margin:10px 0}
+.n{display:block;text-align:center;color:#93c5fd;margin-top:10px}
+.warn{background:#7f1d1d;border-radius:12px;padding:10px 12px;font-weight:700}
+</style>
 <script>
 (function () {
-  var live = 'https://baoussalatkostaz.com';
-  var path = location.pathname.replace(/^\/spss-course\/?/, '/') || '/';
-  if (path.charAt(0) !== '/') path = '/' + path;
-  var dest = live + path + location.search + location.hash;
-  location.replace(dest);
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(function (rs) {
-      rs.forEach(function (r) { r.unregister(); });
-    });
+  var live = 'https://baoussalatkostaz.com/?from=oldpwa';
+  function sa() {
+    try {
+      if (navigator.standalone === true) return true;
+      return ['standalone', 'fullscreen', 'minimal-ui', 'window-controls-overlay'].some(function (m) {
+        return window.matchMedia('(display-mode: ' + m + ')').matches;
+      });
+    } catch (e) { return false; }
   }
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js', { scope: './', updateViaCache: 'none' }).catch(function () {});
+  }
+  if (!sa()) {
+    var path = location.pathname.replace(/^\/spss-course\/?/, '/') || '/';
+    if (path.charAt(0) !== '/') path = '/' + path;
+    location.replace('https://baoussalatkostaz.com' + path + location.search + location.hash);
+    return;
+  }
+  window.addEventListener('DOMContentLoaded', function () {
+    var a = document.getElementById('go');
+    if (!a) return;
+    if (/Android/i.test(navigator.userAgent || '')) {
+      a.href = 'intent://baoussalatkostaz.com/?from=oldpwa#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=https://baoussalatkostaz.com/?from=oldpwa;end';
+    } else a.href = live;
+  });
 })();
 </script>
 </head>
 <body>
-<p>جاري فتح المنصة… <a href="https://baoussalatkostaz.com/">baoussalatkostaz.com</a></p>
+<div class="box">
+<h1>هذه أيقونة قديمة — لا تستعملها بعد اليوم</h1>
+<p class="warn">المنصة انتقلت إلى baoussalatkostaz.com. التثبيت من هنا ينشئ أيقونة ثانية مطابقة.</p>
+<ol>
+<li>اضغط الزر الأخضر لفتح المنصة في Chrome.</li>
+<li>من القائمة ثبّت التطبيق (أيقونة جديدة).</li>
+<li>ارجع إلى الشاشة الرئيسية: اضغط مطولاً على <b>هذه</b> الأيقونة القديمة ← إزالة / Uninstall.</li>
+</ol>
+<p>بعدها أبقِ الأيقونة الجديدة فقط.</p>
+<a class="a" id="go" href="https://baoussalatkostaz.com/?from=oldpwa">فتح المنصة الجديدة في Chrome</a>
+<a class="n" href="https://baoussalatkostaz.com/?from=oldpwa">baoussalatkostaz.com</a>
+</div>
 </body>
 </html>

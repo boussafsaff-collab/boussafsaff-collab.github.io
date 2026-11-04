@@ -1,6 +1,4 @@
-/* PWA bridge: GitHub Pages installs → baoussalatkostaz.com. Do not cache the course. */
-var LIVE = 'https://baoussalatkostaz.com';
-var PREFIX = '/spss-course';
+/* PWA bridge: keep old GitHub installs in-scope (no cross-origin redirect). */
 self.addEventListener('install', function () { self.skipWaiting(); });
 self.addEventListener('activate', function (e) {
   e.waitUntil(self.clients.claim().then(function () {
@@ -9,18 +7,11 @@ self.addEventListener('activate', function (e) {
     });
   }));
 });
-function toLive(u) {
-  try {
-    var url = new URL(u);
-    var path = url.pathname;
-    if (path.indexOf(PREFIX) === 0) path = path.slice(PREFIX.length) || '/';
-    if (!path) path = '/';
-    return LIVE + path + url.search + url.hash;
-  } catch (x) {
-    return LIVE + '/';
-  }
-}
 self.addEventListener('fetch', function (e) {
   if (e.request.mode !== 'navigate') return;
-  e.respondWith(Response.redirect(toLive(e.request.url), 302));
+  e.respondWith(fetch(e.request, { cache: 'no-store' }).catch(function () {
+    return caches.match('index.html').then(function (h) {
+      return h || new Response('افتح baoussalatkostaz.com', { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
+    });
+  }));
 });
