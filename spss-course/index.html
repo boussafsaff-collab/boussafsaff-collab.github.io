@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>بوصلتك مع الأستاذ</title>
+<link rel="canonical" href="https://baoussalatkostaz.com/">
+<script>
+(function () {
+  var live = 'https://baoussalatkostaz.com';
+  var path = location.pathname.replace(/^\/spss-course\/?/, '/') || '/';
+  if (path.charAt(0) !== '/') path = '/' + path;
+  var dest = live + path + location.search + location.hash;
+  location.replace(dest);
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function (rs) {
+      rs.forEach(function (r) { r.unregister(); });
+    });
+  }
+})();
+</script>
+</head>
+<body>
+<p>جاري فتح المنصة… <a href="https://baoussalatkostaz.com/">baoussalatkostaz.com</a></p>
+</body>
+</html>
